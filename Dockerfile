@@ -1,0 +1,62 @@
+FROM debian:bullseye
+
+# Default location where all binaries wind up:
+ARG INSTALLDIR=/pqc/pqc-docker
+
+# liboqs build defines (https://github.com/open-quantum-safe/liboqs/wiki/Customizing-liboqs)
+ARG LIBOQS_BUILD_DEFINES=""
+
+# Define the degree of parallelism when building the image
+ARG MAKE_DEFINES="-j 8"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Get all software packages required for building liboqs
+RUN apt-get update && \
+    apt-get install -y \
+    astyle \
+    build-essential \
+    cmake \
+    gcc \
+    graphviz \
+    libssl-dev \
+    ninja-build \
+    python3-pytest \
+    python3-pytest-xdist \
+    python3-yaml \
+    sudo \
+    unzip \
+    valgrind \
+    vim \
+    nano \
+    iproute2 \
+    python3 \
+    xsltproc \
+    doxygen \ 
+    git
+
+#Setting root password
+RUN echo 'root:password' | chpasswd
+
+# create a user with root privileges
+RUN useradd --no-log-init --system --uid 1000 --create-home testuser
+
+# switch to the new user
+USER testuser
+
+# Setting up testing directories
+WORKDIR /pqc/
+RUN git clone https://github.com/crt2626/pqc-docker.git
+WORKDIR /pqc/pqc-docker
+RUN git clone https://github.com/open-quantum-safe/liboqs.git
+
+# Setting up build
+WORKDIR /pqc/pqc-docker/liboqs
+RUN mkdir build && cd build && cmake .. ${LIBOQS_BUILD_DEFINES} -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} && make ${MAKE_DEFINES} && make install
+
+# Create bin directory in INSTALLDIR
+RUN mkdir -p ${INSTALLDIR}/bin && \
+    cp build/tests/speed_kem ${INSTALLDIR}/bin/ && \
+    cp build/tests/speed_sig ${INSTALLDIR}/bin/ && \
+    cp build/tests/test_kem_mem ${INSTALLDIR}/bin/ && \
+    cp build/tests/test_sig_mem ${INSTALLDIR}/bin/
