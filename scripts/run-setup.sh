@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# making 
+
 # Moving to the build directory
 cd /pqc/pqc-docker/build
 

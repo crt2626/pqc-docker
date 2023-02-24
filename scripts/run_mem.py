@@ -13,6 +13,8 @@ data = {}
 # metric headers
 fieldname=["insts", "maxBytes", "maxHeap", "extHeap", "maxStack"]
 
+# root dir
+
 #*******************************************************************
 def get_peak(lines):
     """Function for getting the peak memory metrics"""
@@ -64,7 +66,10 @@ def parse_config(output):
 def do_test(alg, meth, methnames, exepath):
    """Performing the tests and outputing the results"""
 
+   #
 
+
+   # Running the valgrind memory profiler and saving output
    process = subprocess.Popen(["valgrind", "--tool=massif", "--stacks=yes", "--massif-out-file=valgrind-out", exepath, alg, str(meth)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
 
    (outs, errs) = process.communicate()

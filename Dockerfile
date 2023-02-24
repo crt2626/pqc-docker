@@ -42,14 +42,16 @@ RUN echo 'root:password' | chpasswd
 # create a user with root privileges
 RUN useradd --no-log-init --system --uid 1000 --create-home testuser
 
-# switch to the new user
-USER testuser
-
 # Setting up testing directories
 WORKDIR /pqc/
 RUN git clone https://github.com/crt2626/pqc-docker.git
 WORKDIR /pqc/pqc-docker
 RUN git clone https://github.com/open-quantum-safe/liboqs.git
+RUN chown -R testuser /pqc/
+RUN chmod -R 755 /pqc
+
+# switch to the new user
+USER testuser
 
 # Setting up build
 WORKDIR /pqc/pqc-docker/liboqs
