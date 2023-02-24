@@ -6,8 +6,12 @@ import sys
 import os
 import shutil
 
+"""Global Variables"""
 # JSON data dict
 data = {}
+
+# metric headers
+fieldname=["insts", "maxBytes", "maxHeap", "extHeap", "maxStack"]
 
 #*******************************************************************
 def get_peak(lines):
@@ -57,13 +61,10 @@ def parse_config(output):
 
 
 #*******************************************************************
-
-fieldname=["insts", "maxBytes", "maxHeap", "extHeap", "maxStack"]
-
 def do_test(alg, meth, methnames, exepath):
    """Performing the tests and outputing the results"""
 
-   
+
    process = subprocess.Popen(["valgrind", "--tool=massif", "--stacks=yes", "--massif-out-file=valgrind-out", exepath, alg, str(meth)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
 
    (outs, errs) = process.communicate()
@@ -97,6 +98,10 @@ def do_test(alg, meth, methnames, exepath):
       print("Result for %s: " % (alg))
       print(result)
       print(outs.splitlines())
+
+#*******************************************************************
+
+
 
 if len(sys.argv) != 2:
    print("python3 %s <testprogram>" % (sys.argv[0]))
