@@ -2,6 +2,7 @@ FROM debian:bullseye
 
 # Default location where all binaries wind up:
 ARG INSTALLDIR=/pqc/pqc-docker
+ARG BUILDDIR=/pqc/pqc-docker/build
 
 # liboqs build defines (https://github.com/open-quantum-safe/liboqs/wiki/Customizing-liboqs)
 ARG LIBOQS_BUILD_DEFINES=""
@@ -55,8 +56,10 @@ WORKDIR /pqc/pqc-docker/liboqs
 RUN mkdir build && cd build && cmake .. ${LIBOQS_BUILD_DEFINES} -DCMAKE_INSTALL_PREFIX=${INSTALLDIR} && make ${MAKE_DEFINES} && make install
 
 # Create bin directory in INSTALLDIR
-RUN mkdir -p ${INSTALLDIR}/bin && \
+RUN mkdir -p ${INSTALLDIR}/build && \
     cp build/tests/speed_kem ${INSTALLDIR}/bin/ && \
     cp build/tests/speed_sig ${INSTALLDIR}/bin/ && \
     cp build/tests/test_kem_mem ${INSTALLDIR}/bin/ && \
     cp build/tests/test_sig_mem ${INSTALLDIR}/bin/
+
+
