@@ -65,4 +65,4 @@ RUN mkdir -p ${INSTALLDIR}/build && \
     cp build/tests/test_kem_mem ${INSTALLDIR}/bin/ && \
     cp build/tests/test_sig_mem ${INSTALLDIR}/bin/
 
-
+CMD ["/pqc/pqc-docker/scripts/run-tests.sh"]
