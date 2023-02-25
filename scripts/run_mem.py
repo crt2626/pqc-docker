@@ -132,11 +132,18 @@ def main ():
 
    # Looping throuhg algs and running the tests
    for alg in algs:
-       
-       # looping throuhg operations
+      # looping throuhg operations
        for op in range(3):
            do_test(alg, op, exepath)
 
+       temp_dir = "tmp"
+       contents = os.listdir(temp_dir)
+       for item in contents:
+           item_path = os.path.join(temp_dir, item)
+           if os.path.isfile(item_path):
+               os.remove(item_path)
+           else:
+               shutil.rmtree(item_path)
 
 #*******************************************************************
 
