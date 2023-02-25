@@ -93,7 +93,7 @@ def do_test(alg, meth, exepath):
 
    # Copying the valgrin.out file
    val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
-   shutil.copyfile("./valgrind.out", val_out_filename)
+   shutil.copyfile("valgrind.out", val_out_filename)
 
    # Valgrind exception handling
    if process.returncode != 0:
@@ -131,13 +131,13 @@ def main ():
    """Main function that sets up and execute tests"""
 
    # Checking if enough arguments have been passed to the script
-   if len(sys.argv) != 2:
-      print("Not enough arguments")
-      exit(1)
+   # if len(sys.argv) != 2:
+   #    print("Not enough arguments")
+   #    exit(1)
 
    # Setting the input variables
-   exepath=sys.argv[1]
-
+   #exepath=sys.argv[1]
+   exepath = "./test_sig_mem"
    # Setting the method names based on the test progamme being supplied
    if exepath.find("kem") > 0:
 

@@ -1,14 +1,6 @@
 #!/bin/bash
 
-# Moving script 
-# cd /pqc/pqc-docker/scripts
-# cp run_mem.py /pqc/pqc-docker/bin
-
-# making out dir
-mkdir -p /pqc/pqc-docker/output
-
-# Moving to the build directory
-cd /pqc/pqc-docker/bin/
+cd /pqc/pqc-docker/build/tests
 
 # Running sig mem test
 python3 run_mem.py test_sig_mem
