@@ -105,25 +105,24 @@ def do_test(alg, meth, methnames, exepath):
       print(outs.splitlines())
 
 #*******************************************************************
+"""Doing the tests"""
 
-
-
-if len(sys.argv) != 2:
-   print("python3 %s <testprogram>" % (sys.argv[0]))
+# Checking if enough arguments have been passed to the script
+if len(sys.argv) != 3:
+   print("Not enough arguments")
    exit(1)
 
+# Setting the input variables
 exepath=sys.argv[1]
+output_dir = sys.argv[2]
 
+# Setting the method names based on the test progamme being supplied
 if exepath.find("kem")>0:
    methnames=["keygen","encaps","decaps"]
+   setKemAlgs = setKem
 else:
    methnames=["keygen","sign","verify"]
 
-try:
-   os.mkdir("build")
-   os.mkdir(os.path.join("build", "mem-benchmark"))
-except FileExistsError:
-   activealgs=[]
 
 # first determine all enabled algorithms
 process = subprocess.Popen([exepath], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
