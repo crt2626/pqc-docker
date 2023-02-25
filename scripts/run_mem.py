@@ -11,6 +11,7 @@ data = {}
 fieldname=["insts", "maxBytes", "maxHeap", "extHeap", "maxStack"]
 root_dir = "/pqc/pqc-docker"
 output_dir = "/pqc/output"
+algs_dir = "/pqc/pqc-docker/algs/"
 kem_algs = []
 sig_algs = []
 
@@ -19,8 +20,8 @@ def get_algs():
     """Function for creating list of algorithms"""
 
     # Setting alg text file directories
-    kem_algs_file = os.path.join(root_dir, "result-processing", "algs", "kem-algs-list.txt")
-    sig_algs_file = os.path.join(root_dir, "result-processing", "algs", "sig-algs-list.txt")
+    kem_algs_file = algs_dir + "kem-algs-list.txt"
+    sig_algs_file = algs_dir + "sig-algs-list.txt"
 
     # # Getting the kem algs
     with open(kem_algs_file, "r") as kem_file:
@@ -144,7 +145,7 @@ def main ():
       algs = kem_algs
 
    else:
-      
+
       #methnames=["keygen","sign","verify"]
       algs = sig_algs
 
