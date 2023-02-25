@@ -67,5 +67,4 @@ RUN mkdir -p ${INSTALLDIR}/build && \
     cp build/tests/test_sig_mem ${INSTALLDIR}/bin/
 
 WORKDIR /pqc/pqc-docker/scripts
-RUN cp /pqc/pqc-docker/scripts/run_mem.py /pqc/pqc-docker/bin/run_mem.py
 CMD ["/pqc/pqc-docker/scripts/run-tests.sh"]
