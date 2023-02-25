@@ -93,7 +93,7 @@ def do_test(alg, meth, exepath):
 
    # Copying the valgrin.out file
    val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
-   shutil.copyfile("valgrind.out", val_out_filename)
+   shutil.copyfile("valgrind-out", val_out_filename)
 
    # Valgrind exception handling
    if process.returncode != 0:
