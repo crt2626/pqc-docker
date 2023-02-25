@@ -64,24 +64,6 @@ def get_peak(lines):
                 #print(" ".join(res))
                 return res
 
-
-#*******************************************************************
-def parse_config(output):
-   """some random function they had for getting config data ro something??"""
-   lines = output.splitlines()
-   loading = False
-   for line in lines:
-      if loading:
-         if line == "\n": # done
-            return
-         elif line.startswith("Started at"):
-                data["config"]["start"] = line[len("Started at "):]
-         elif ":" in line:
-                data["config"][line[:line.index(":")]]=line[line.index(":")+1:].lstrip()
-      elif line.startswith("====="):
-         loading=True
-
-
 #*******************************************************************
 def do_test(alg, meth, exepath):
    """Performing the tests and outputing the results"""
@@ -93,17 +75,13 @@ def do_test(alg, meth, exepath):
 
    # Copying the valgrin.out file
    val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
-   shutil.copyfile("valgrind-out", val_out_filename)
+   #shutil.copyfile("valgrind-out", val_out_filename)
 
    # Valgrind exception handling
    if process.returncode != 0:
 
       print("Valgrind died with retcode %d and \n%s\n%s\nFatal error. Exiting." % (process.returncode, outs, errs))
       exit(1)
-
-   if len(data["config"]) == 0:
-
-      parse_config(outs)
 
    # Parsing valgrind.out file through ms_print
    process = subprocess.Popen(["ms_print", "valgrind-out"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
