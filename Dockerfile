@@ -47,7 +47,8 @@ WORKDIR /pqc/
 RUN mkdir /pqc/output
 RUN git clone https://github.com/crt2626/pqc-docker.git
 RUN mkdir -p /pqc/pqc-docker/bin
-WORKDIR /pqc/pqc-docker
+RUN cp /pqc/pqc-docker/scripts/run_mem.py /pqc/pqc-docker/bin/
+WORKDIR /pqc/pqc-docker/
 RUN git clone https://github.com/open-quantum-safe/liboqs.git
 RUN chown -R testuser /pqc/
 RUN chmod -R 755 /pqc
