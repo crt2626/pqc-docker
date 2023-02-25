@@ -131,13 +131,16 @@ def main ():
    """Main function that sets up and execute tests"""
 
    # Checking if enough arguments have been passed to the script
-   # if len(sys.argv) != 2:
-   #    print("Not enough arguments")
-   #    exit(1)
+   if len(sys.argv) != 2:
+      print("Not enough arguments")
+      exit(1)
 
    # Setting the input variables
-   #exepath=sys.argv[1]
-   exepath = "./test_sig_mem"
+   exepath=sys.argv[1]
+
+   # Getings algs
+   get_algs()
+
    # Setting the method names based on the test progamme being supplied
    if exepath.find("kem") > 0:
 
