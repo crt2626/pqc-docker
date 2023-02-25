@@ -11,4 +11,4 @@ mkdir -p /pqc/pqc-docker/output
 cd /pqc/pqc-docker/bin/
 
 # Running sig mem test
-python3 run_mem.py /pqc/pqc-docker/bin/test_sig_mem
+python3 run_mem.py test_sig_mem
