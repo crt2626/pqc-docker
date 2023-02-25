@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# making 
+# making out dir
+mkdir -p /pqc/output
 
 # Moving to the build directory
 cd /pqc/pqc-docker/build

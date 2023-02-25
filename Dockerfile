@@ -44,6 +44,7 @@ RUN useradd --no-log-init --system --uid 1000 --create-home testuser
 
 # Setting up testing directories
 WORKDIR /pqc/
+RUN mkdir /pqc/output
 RUN git clone https://github.com/crt2626/pqc-docker.git
 WORKDIR /pqc/pqc-docker
 RUN git clone https://github.com/open-quantum-safe/liboqs.git
