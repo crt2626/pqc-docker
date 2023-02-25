@@ -66,43 +66,51 @@ def get_peak(lines):
 
 #*******************************************************************
 def do_test(alg, meth, exepath):
-   """Performing the tests and outputing the results"""
+    """Doing the tests"""
+    # Running the valgrind memory profiler and saving output
+    process = subprocess.Popen(["valgrind", "--tool=massif", "--stacks=yes", "--massif-out-file=valgrind-out", exepath, alg, str(meth)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
+    (outs, errs) = process.communicate()
 
-   # Running the valgrind memory profiler and saving output
-   process = subprocess.Popen(["valgrind", "--tool=massif", "--stacks=yes", "--massif-out-file=valgrind-out", exepath, alg, str(meth)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
-   (outs, errs) = process.communicate()
 
+    # Copying the valgrin.out file
+    val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
+    #shutil.copyfile("valgrind-out", val_out_filename)
 
-   # Copying the valgrin.out file
-   val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
-   #shutil.copyfile("valgrind-out", val_out_filename)
+    # Valgrind exception handling
+    if process.returncode != 0:
 
-   # Valgrind exception handling
-   if process.returncode != 0:
+        print("Valgrind died with retcode %d and \n%s\n%s\nFatal error. Exiting." % (process.returncode, outs, errs))
+        exit(1)
 
-      print("Valgrind died with retcode %d and \n%s\n%s\nFatal error. Exiting." % (process.returncode, outs, errs))
-      exit(1)
+    # Parsing valgrind.out file through ms_print
+    process = subprocess.Popen(["ms_print", "valgrind-out"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
+    (outs, errs) = process.communicate()
 
-   # Parsing valgrind.out file through ms_print
-   process = subprocess.Popen(["ms_print", "valgrind-out"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
-   (outs, errs) = process.communicate()
+    # Copy ms_print output
+    output_dir = "/pqc/output"
+    if meth == 0:
+        output_dir = output_dir + "/op1"
+    elif meth == 1:
+        output_dir = output_dir + "/op2"
+    elif meth == 2:
+        output_dir = output_dir + "/op3"
+    
+    # copying the ms_print output
+    ms_out_filename = output_dir + "/" + alg  + "-" + "ms-out.txt"
+    with open(ms_out_filename, "w") as file:
+        file.write(outs)
 
-   # Copy ms_print output
-   ms_out_filename = output_dir + "/" + alg  + "-" + "ms-out.txt"
-   with open(ms_out_filename, "w") as file:
-       file.write(outs)
+    # Parsing memory metrics
+    result = get_peak(outs.splitlines())
 
-   # Parsing memory metrics
-   result = get_peak(outs.splitlines())
+    # Printing out test results to terminal
+    try: 
+        print("Result for %s: %s" % (alg, " ".join(result)))
 
-   # Printing out test results to terminal
-   try: 
-      print("Result for %s: %s" % (alg, " ".join(result)))
-
-   except TypeError:
-      print("Result for %s: " % (alg))
-      print(result)
-      print(outs.splitlines())
+    except TypeError:
+        print("Result for %s: " % (alg))
+        print(result)
+        print(outs.splitlines())
 
 #*******************************************************************
 def main ():

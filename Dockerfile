@@ -45,6 +45,9 @@ RUN useradd --no-log-init --system --uid 1000 --create-home testuser
 # Setting up testing directories
 WORKDIR /pqc/
 RUN mkdir -p /pqc/output
+RUN mkdir -p /pqc/output/op1
+RUN mkdir -p /pqc/output/op2
+RUN mkdir -p /pqc/output/op3
 RUN git clone https://github.com/crt2626/pqc-docker.git
 RUN mkdir -p /pqc/pqc-docker/bin
 RUN cp /pqc/pqc-docker/scripts/run_mem.py /pqc/pqc-docker/bin/
@@ -64,5 +67,5 @@ RUN mv build /pqc/pqc-docker/
 WORKDIR /pqc/pqc-docker/scripts
 RUN cp run_mem.py /pqc/pqc-docker/build/tests/
 
-WORKDIR /pqc/pqc-docker/scripts
-CMD ["/pqc/pqc-docker/scripts/run-tests.sh"]
+WORKDIR /home/testuser
+#CMD ["/pqc/pqc-docker/scripts/run-tests.sh"]
