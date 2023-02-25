@@ -67,13 +67,14 @@ def get_peak(lines):
 #*******************************************************************
 def do_test(alg, meth, exepath):
     """Doing the tests"""
+    global output_dir
     # Running the valgrind memory profiler and saving output
     process = subprocess.Popen(["valgrind", "--tool=massif", "--stacks=yes", "--massif-out-file=valgrind-out", exepath, alg, str(meth)], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,universal_newlines=True)
     (outs, errs) = process.communicate()
 
 
     # Copying the valgrin.out file
-    val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
+    #val_out_filename = output_dir + "/" + alg + "-" + "valgrind.out"
     #shutil.copyfile("valgrind-out", val_out_filename)
 
     # Valgrind exception handling
@@ -87,12 +88,14 @@ def do_test(alg, meth, exepath):
     (outs, errs) = process.communicate()
 
     # Copy ms_print output
-    output_dir = "/pqc/output"
     if meth == 0:
+        output_dir = "/pqc/output"
         output_dir = output_dir + "/op1"
     elif meth == 1:
+        output_dir = "/pqc/output"
         output_dir = output_dir + "/op2"
     elif meth == 2:
+        output_dir = "/pqc/output"
         output_dir = output_dir + "/op3"
     
     # copying the ms_print output
